@@ -85,7 +85,16 @@ const limiter = rateLimit({
 });
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    }
+  }
+}));
 app.use(compression());
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
